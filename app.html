@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chicken Banana</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* Empêche les barres de défilement */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black; /* Pour un fond noir si l'image ne couvre pas tout */
+        }
+        #pouleImage {
+            width: 100vw;   /* 100% de la largeur de la fenêtre */
+            height: 100vh;  /* 100% de la hauteur de la fenêtre */
+            object-fit: contain; /* L'image s'adapte sans être déformée, avec des barres noires si besoin */
+            cursor: pointer; /* Indique que c'est cliquable */
+        }
+        #boutonLancer {
+            position: fixed; /* Reste au même endroit */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Centre le bouton */
+            padding: 20px 40px;
+            font-size: 2em;
+            background-color: #FF69B4; /* Un peu doux et coloré pour toi ! */
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            z-index: 100; /* Assure que le bouton est au-dessus de l'image */
+            font-family: sans-serif;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.7); /* Pour un effet incroyable */
+            transition: transform 0.2s ease-in-out;
+        }
+        #boutonLancer:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <button id="boutonLancer">Continuer ---></button>
+
+    <img id="pouleImage" src="https://media.tenor.com/yheo1GGu3FwAAAAM/rick-roll-rick-ashley.gif" alt="Une poule géniale">
+
+    <audio id="chickenBananaAudio" src="https://ia800709.us.archive.org/19/items/chicken-banana/CHICKEN%20BANANA.mp3" loop></audio>
+
+    <script>
+        const boutonLancer = document.getElementById('boutonLancer');
+        const pouleImage = document.getElementById('pouleImage');
+        const chickenBananaAudio = document.getElementById('chickenBananaAudio');
+
+        // Au démarrage, cache l'image et la musique
+        pouleImage.style.display = 'none';
+
+        boutonLancer.addEventListener('click', function() {
+            // Cache le bouton
+            boutonLancer.style.display = 'none';
+
+            // Affiche l'image
+            pouleImage.style.display = 'block';
+
+            // Mets en plein écran (si le navigateur le permet)
+            const elem = document.documentElement; // Représente toute la page HTML
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                elem.msRequestFullscreen();
+            }
+
+            // Lance la lecture de la musique
+            chickenBananaAudio.play().catch(e => {
+                console.error("La lecture audio a été bloquée par le navigateur :", e);
+                alert("La musique n'a pas pu se lancer automatiquement. Dis à tes potes de cliquer n'importe où !");
+            });
+        });
+
+        // Pour relancer la musique si elle est bloquée et que l'utilisateur clique ailleurs
+        document.addEventListener('click', function() {
+            if (chickenBananaAudio.paused && pouleImage.style.display === 'block') {
+                chickenBananaAudio.play().catch(e => console.log("Tentative de relance bloquée"));
+            }
+        });
+    </script>
+</body>
+</html>
