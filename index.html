@@ -8,37 +8,39 @@
     <style>
         body {
             margin: 0;
-            overflow: hidden; [span_3](start_span)/* Empêche les barres de défilement */[span_3](end_span)
+            overflow: hidden; /* Empêche les barres de défilement */
             display: flex;
-            [span_4](start_span)justify-content: center;[span_4](end_span)
+            justify-content: center;
             align-items: center;
-            background-color: black; /* Pour un fond noir si l'image ne couvre pas tout */
+            background-color: black; /* Fond noir par défaut */
+            height: 100vh; /* Prend toute la hauteur de la fenêtre */
         }
         #pouleImage {
-            width: 100vw; [span_5](start_span)/* 100% de la largeur de la fenêtre */[span_5](end_span)
-            height: 100vh; [span_6](start_span)/* 100% de la hauteur de la fenêtre */[span_6](end_span)
-            object-fit: contain; [span_7](start_span)/* L'image s'adapte sans être déformée, avec des barres noires si besoin */[span_7](end_span)
-            cursor: pointer; [span_8](start_span)/* Indique que c'est cliquable */[span_8](end_span)
+            width: 100vw;
+            height: 100vh;
+            object-fit: contain;
+            cursor: pointer;
+            display: none; /* Cache l'image au démarrage */
         }
         #boutonLancer {
-            position: fixed; [span_9](start_span)/* Reste au même endroit */[span_9](end_span)
-            [span_10](start_span)top: 50%;[span_10](end_span)
+            position: fixed; /* Reste au même endroit */
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%); /* Centre le bouton */
-            [span_11](start_span)padding: 20px 40px;[span_11](end_span)
+            padding: 20px 40px;
             font-size: 2em;
-            background-color: #FF69B4; /* Un peu doux et coloré pour toi ! *[span_12](start_span)/[span_12](end_span)
+            background-color: #FF69B4; /* Un peu doux et coloré pour toi ! */
             color: white;
             border: none;
             border-radius: 15px;
-            [span_13](start_span)cursor: pointer;[span_13](end_span)
-            z-index: 100; [span_14](start_span)/* Assure que le bouton est au-dessus de l'image */[span_14](end_span)
-            [span_15](start_span)font-family: sans-serif;[span_15](end_span)
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.7); [span_16](start_span)/* Pour un effet incroyable */[span_16](end_span)
-            [span_17](start_span)transition: transform 0.2s ease-in-out;[span_17](end_span)
+            cursor: pointer;
+            z-index: 100; /* Assure que le bouton est au-dessus de tout */
+            font-family: sans-serif;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.7); /* Pour un effet incroyable */
+            transition: transform 0.2s ease-in-out;
         }
         #boutonLancer:hover {
-            [span_18](start_span)transform: translate(-50%, -50%) scale(1.05);[span_18](end_span)
+            transform: translate(-50%, -50%) scale(1.05);
         }
     </style>
 </head>
@@ -50,9 +52,9 @@
     <audio id="chickenBananaAudio" src="https://ia800709.us.archive.org/19/items/chicken-banana/CHICKEN%20BANANA.mp3" loop></audio>
 
     <script>
-        [span_19](start_span)const boutonLancer = document.getElementById('boutonLancer');[span_19](end_span)
-        [span_20](start_span)const pouleImage = document.getElementById('pouleImage');[span_20](end_span)
-        [span_21](start_span)const chickenBananaAudio = document.getElementById('chickenBananaAudio');[span_21](end_span)
+        const boutonLancer = document.getElementById('boutonLancer');
+        const pouleImage = document.getElementById('pouleImage');
+        const chickenBananaAudio = document.getElementById('chickenBananaAudio');
 
         const gifs = [
             "https://media.tenor.com/yheo1GGu3FwAAAAM/rick-roll-rick-ashley.gif",
@@ -60,7 +62,7 @@
             "https://media.tenor.com/b2J7a3aX500AAAAC/chicken-dance.gif",
             "https://media.tenor.com/w4p8bV_t3L0AAAAC/cluck-cluck-chicken.gif",
             "https://media.tenor.com/sY_H21s_k5cAAAAC/chicken-run-chicken-run-chicken.gif"
-            // N'hésite pas à ajouter plus d'URLs de GIFs ici !
+            // Ajoute autant d'URLs de GIFs que tu veux ici !
         ];
         let currentGifIndex = 0;
 
@@ -69,30 +71,27 @@
             pouleImage.src = gifs[currentGifIndex];
         }
 
-        // Au démarrage, cache l'image et la musique
-        [span_22](start_span)pouleImage.style.display = 'none';[span_22](end_span)
-
         boutonLancer.addEventListener('click', function() {
             // Cache le bouton
             boutonLancer.style.display = 'none';
 
-            // Affiche l'image juste avant de tenter le plein écran
+            // Affiche l'image
             pouleImage.style.display = 'block';
 
             // Mets en plein écran (si le navigateur le permet)
-            [span_23](start_span)const elem = document.documentElement; // Représente toute la page HTML[span_23](end_span)
-            [span_24](start_span)if (elem.requestFullscreen) {[span_24](end_span)
-                [span_25](start_span)elem.requestFullscreen();[span_25](end_span)
-            [span_26](start_span)} else if (elem.webkitRequestFullscreen) { /* Safari */[span_26](end_span)
-                [span_27](start_span)elem.webkitRequestFullscreen();[span_27](end_span)
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
             } else if (elem.msRequestFullscreen) { /* IE11 */
-                [span_28](start_span)elem.msRequestFullscreen();[span_28](end_span)
+                elem.msRequestFullscreen();
             }
 
             // Lance la lecture de la musique
             chickenBananaAudio.play().catch(e => {
                 console.error("La lecture audio a été bloquée par le navigateur :", e);
-                [span_29](start_span)alert("La musique n'a pas pu se lancer automatiquement. Dis à tes potes de cliquer n'importe où !");[span_29](end_span)
+                alert("La musique n'a pas pu se lancer automatiquement. Dis à tes potes de cliquer n'importe où !");
             });
 
             // Lance le changement de GIF toutes les 5 secondes (5000 millisecondes)
@@ -104,7 +103,7 @@
             if (chickenBananaAudio.paused && pouleImage.style.display === 'block') {
                 chickenBananaAudio.play().catch(e => console.log("Tentative de relance bloquée"));
             }
-        [span_30](start_span)});[span_30](end_span)
+        });
     </script>
 </body>
 </html>
